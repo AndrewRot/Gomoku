@@ -87,10 +87,12 @@ public class GomokuAI {
         for (int i = 0; i < gameBoard[0].length; i++) {
             for (int j = 0; j < gameBoard.length; j++) {
                 if (gameBoard[i][j] == '_') {
-                    
+
+                    gameBoard[i][j] = 'X'; 
+
                     //generate move and create line to write
-                    int row = j+1;
-                    String col = integerTable.get(i);
+                    int row = i+1;
+                    String col = integerTable.get(j);
                     String line = teamName + " " + col + " " + row;
                     System.out.println("calculateMove: "+line);
 
