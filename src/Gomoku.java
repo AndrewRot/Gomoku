@@ -119,7 +119,7 @@ public class Gomoku {
         else 
             symbol = "O";
 
-        if (vertical(r, c, symbol) || horizontal(i, j, symbol) ){//|| forwardSlash(i, j, symbol) ){//|| rDiagonal(i, j, symbol)) {
+        if (vertical(r, c, symbol) || horizontal(r, c, symbol) ){//|| forwardSlash(i, j, symbol) ){//|| rDiagonal(i, j, symbol)) {
             return true;
         }  
 
