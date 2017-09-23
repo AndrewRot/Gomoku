@@ -13,13 +13,24 @@ public class Board {
 
     //2d array to keep track of the game board
     char[][] board = new char[15][15];
-
+    char nextPlayer;
+    char prevPlayer;
     //boolean yourTurn; //initialize randomly later on. true if your turn
     
 
     public Board(){
         initializeBoard(); 
         //this.yourTurn = true;
+    }
+
+    public Board(char[][] b, char nextPlayer, char prevPlayer){
+        for(int i = 0; i < board[0].length; i++){
+            for(int j = 0; j < board.length; j++){
+                board[i][j] = b[i][j];
+            }
+        }
+        this.nextPlayer = nextPlayer;
+        this.prevPlayer = prevPlayer;
     }
 
     //iterate first col, every row in it, then move to next col across.
@@ -144,8 +155,8 @@ public class Board {
     }
 
     //iterate first col, every row in it, then move to next col across.
-    public LinkedList<Move> findEmpty(){
-        LinkedList<Move> empties = new LinkedList<Move>();
+    public Set<Move> findEmpty(){
+        Set<Move> empties = new HashSet<Move>();
         for(int i = 0; i < board[0].length; i++){
             for(int j = 0; j < board.length; j++){
                 if(board[i][j] == '_'){
@@ -157,10 +168,137 @@ public class Board {
         return empties;
     }
 
+    public void executeMove(char player, Move m){
+        board[m.row][m.col] = player;
+        prevPlayer = player;
+        nextPlayer = (player == 'X') ? 'O' : 'X';
+    }
+
+    public int evalStatus(char p, int dToWin){
+        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin);
+    }
 
 
+    private int evalStatusRows(char p, int dToWin){
+        int count = 0;
+        int length = 5 - dToWin;
+        String match1 = strMatch(p, length);
+        String match2 = '_' + match1;
+        match1 += '_';
+        for (int i = 0; i < 15; i++) {
+            String row = new String(board[i]);
+            if (row.contains(match1)) {
+                int x = row.indexOf(match1);
+                while (x >= 0) {
+                    count++;
+                    x = row.indexOf(match1, match1.length() + x);
+                }
+            }
+            if (row.contains(match2)) {
+                int x = row.indexOf(match2);
+                while (x >= 0) {
+                    count++;
+                    x = row.indexOf(match2, match2.length() + x);
+                }
+            }
+        }
+        return count;
+    }
 
+    private int evalStatusCols(char p, int dToWin){
+        int count = 0;
+        int length = 5 - dToWin;
+        String match1 = strMatch(p, length);
+        String match2 = '.' + match1;
+        match1 += '.';
+        for (int j = 0; j < 15; j++) {
+            String column = "";
+            for (int i = 0; i < 15; i++) {
+                column += board[i][j];
+            }
+            if (column.contains(match1)) {
+                int x = column.indexOf(match1);
+                while (x >= 0) {
+                    count++;
+                    x = column.indexOf(match1, match1.length() + x);
+                }
+            }
+            if (column.contains(match2)) {
+                int x = column.indexOf(match2);
+                while (x >= 0) {
+                    count++;
+                    x = column.indexOf(match2, match2.length() + x);
+                }
+            }
+        }
 
+        return count;
+    }
+
+    String strMatch(char p, int length) {
+        String match = "";
+        for (int i = 0; i < length; i++) {
+            match += Character.toString(p);
+        }
+        return match;
+    }
+
+    LinkedList<Move> getPlayerPlaces(char p) {
+        LinkedList<Move> places = new LinkedList<>();
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                if (board[i][j] == p) {
+                    places.add(new Move(i,j));
+                }
+            }
+        }
+        return places;
+    }
+
+    LinkedList<Move> lookAround(Move move) {
+        LinkedList<Move> adjacent = new LinkedList<Move>();
+        int[] coords = new int[]{move.row, move.col};
+        int i = coords[0];
+        int j = coords[1];
+        Move x;
+        if (i - 1 >= 0) {
+            if (board[i - 1][j] == '_') {
+                x = new Move(i - 1, j);
+                adjacent.add(x);
+            }
+            if (j - 1 >= 0) {
+                if (board[i - 1][j - 1] == '_') {
+                    x = new Move(i - 1, j - 1);
+                    adjacent.add(x);
+                }
+            }
+        }
+        if (j + 1 < 15) {
+            if (board[i][j + 1] == '_') {
+                x = new Move(i, j + 1);
+                adjacent.add(x);
+            }
+            if (i - 1 >= 0) {
+                if (board[i - 1][j + 1] == '_') {
+                    x = new Move(i - 1, j + 1);
+                    adjacent.add(x);
+                }
+            }
+        }
+        if (i + 1 < 15) {
+            if (board[i + 1][j] == '_') {
+                x = new Move(i + 1, j);
+                adjacent.add(x);
+            }
+            if (j + 1 < 15) {
+                if (board[i + 1][j + 1] == '_') {
+                    x = new Move(i + 1, j - 1);
+                    adjacent.add(x);
+                }
+            }
+        }
+        return adjacent;
+    }
 
     //print board
     public void printBoard(){
