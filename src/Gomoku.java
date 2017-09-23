@@ -15,11 +15,14 @@ public class Gomoku {
     char[][] gameBoard = new char[15][15];
 
     boolean yourTurn; //initialize randomly later on. true if your turn
-    
+    boolean firstTurn; //if it's the computer's first turn -> use for default middle of board move
+
+    MinimaxABPruner minimax = new MinimaxABPruner();
 
     public Gomoku(){
         initializeBoard(); 
         this.yourTurn = true;
+        this.firstTurn = true;
     }
 
     //iterate first col, every row in it, then move to next col across.
@@ -77,7 +80,7 @@ public class Gomoku {
 
     private void endOfGame(boolean playerTurn){
         if(playerTurn)
-            System.out.println("You have one the game!");
+            System.out.println("You have won the game!");
         else 
             System.out.println("You lost to AI!");
     }
@@ -85,6 +88,7 @@ public class Gomoku {
     public void getComputerMove(){
         //generate AI for computers next move.
 
+        /*
         for (int i = 0; i < gameBoard[0].length; i++) {
             for (int j = 0; j < gameBoard.length; j++) {
                 if (gameBoard[i][j] == '_') {
@@ -105,6 +109,38 @@ public class Gomoku {
             }
         }
         //gets to here, board is full
+        */
+        char nextPlayer = yourTurn ? 'O' : 'X';
+        char p = yourTurn ? 'X' : 'O';
+        Board brd = new Board(gameBoard, nextPlayer, p);
+        if(firstTurn){
+            if(brd.board[7][7] == 'X'){
+                brd.executeMove('O', new Move(7,8));
+            }
+            else{
+                brd.executeMove('O', new Move(7,7));
+            }
+            this.gameBoard = brd.board;
+            printBoard();
+            firstTurn = false;
+            yourTurn = true;
+            getUserMove();
+        }
+        else {
+            Object[] x = minimax.getBestMove(brd, 3, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            Move m = (Move) x[1];
+            brd.executeMove(p, m);
+            //gameBoard.print();
+            this.gameBoard = brd.board;
+            printBoard();
+            if(checkWin(m.row, m.col)){
+                endOfGame(yourTurn);
+            }
+            else{
+                yourTurn = true;
+                getUserMove();
+            }
+        }
     }
 
 
