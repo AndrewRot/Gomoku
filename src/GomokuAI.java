@@ -31,6 +31,8 @@ public class GomokuAI {
     HashMap<Integer, String> integerTable; //get letter from int [fast]
 
     String teamName = "groupZ"; //change once here
+
+    Timer timer;
     
 
     public GomokuAI(){
@@ -42,20 +44,50 @@ public class GomokuAI {
         integerTable = new HashMap<Integer, String>();
         populateLetterHashMap();
         populateIntegerHashMap();
+        timer = new Timer();
+
     }
 
+  
+    class timerRunOut extends TimerTask {
+        public void run() {
+            System.out.println("Time's up!");
 
-     //might re-use some of this code to read from the groupname.go file
+            //insert code here to write next move to file
+            //xxxx
+
+            checkingForGo();
+        }
+    }
+
+     /* Checking For Go: This is where we wait for groupname.go file to be created.
+      * Once the file is found, we will begin our timer.
+      * We then call read move to find out where the opponented moved.
+      * IF - the timer reaches it's limit, we jump to timerRunOut and submit the best move found so far
+      */
     private void checkingForGo()  {
+        
+        timer.cancel(); //stop the timer, no longer our move
+
         //wait until the file is created
         System.out.println("Waiting for " +teamName+".go file");
         while(!teamFile.exists()) {  }
+
+        //file has been found! Begin timer 
+        timer = new Timer();
+        timer.schedule(new timerRunOut(), 9 * 1000); //give us 1 to write a move to the file (reduce this later)
+
+        //boolean x = true;
+        //while(x){x = true;} ----Used for testing the timer
 
         try { readMove(); }
         catch(IOException exc){ System.out.println("exception caught reading moves:" + exc.getMessage()); }
     }
        
-
+    /* Read Move: This reads the newest move from the move_file
+     * It then breaks apart the move and determines how it fits onto our gameBoard array
+     * After we understand the move, we then want to calculate the next move
+    */
     private void readMove()  throws IOException {
         //**THIS stuff might better be initiallized outside/before one time. To save time
         FileInputStream fis = new FileInputStream(moveFile);
@@ -87,6 +119,7 @@ public class GomokuAI {
 
     //this function calculates the best coordinate for a move, then writes it to the move_file
     public void calculateMove(){
+
         //generate AI for computers next move.
         outerloop: 
         for (int i = 0; i < gameBoard.board[0].length; i++) {

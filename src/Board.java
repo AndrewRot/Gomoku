@@ -44,6 +44,7 @@ public class Board {
             symbol = "X";
         else 
             symbol = "O";
+        System.out.println("Check win for move: "+"["+r+"] ["+c+"]");
 
         if (vertical(r, c, symbol)|| horizontal(r, c, symbol) || forwardSlash(r, c, symbol)  || backwardSlash(r, c, symbol)) {
             System.out.println("WININNNER");
@@ -67,7 +68,7 @@ public class Board {
             tempCol--;
         }
 
-        System.out.println("Start looking from ["+tempRow+"] ["+tempCol+"]");
+        System.out.println("FORWARD SLASH: Start looking from ["+tempRow+"] ["+tempCol+"]");
         //now we have our starting point on the edge of the board, check the diagnol starting here
         while(tempRow >= 0 && tempCol <= 14){ 
             System.out.println("Examine ["+tempRow+"] ["+tempCol+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[tempRow][tempCol]);
@@ -77,7 +78,7 @@ public class Board {
             }
             else 
                 streak = 0;
-            if(streak == 3)
+            if(streak == 5)
                 return true;
             tempRow--;
             tempCol++;
@@ -86,22 +87,27 @@ public class Board {
     }
     // check for the \ direction
     private boolean backwardSlash(int row, int col, String s){
+        //System.out.println("Check backwardSlash win for move: "+"["+row+"] ["+col+"]");
         int streak = 0;
 
         int tempRow = row; // move this down left until it is 0, then start from there.
         int tempCol = col; //same here
 
-        while(tempCol < 14 && tempRow > 0){
+        while(tempCol < 14 && tempRow < 14){
             tempRow++;
             tempCol++;
         }
+        System.out.println("BACK SLASH: Start looking from ["+tempRow+"] ["+tempCol+"]");
+
         //now we have our starting point on the edge of the board, check the diagnol starting here
-        while(tempCol >= 0 && tempRow <= 14){ 
+        while(tempCol >= 0 && tempRow >=0){ 
+            System.out.println("Examine ["+tempRow+"] ["+tempCol+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[tempRow][tempCol]);
+
             if (s.charAt(0) == board[tempRow][tempCol]) 
                 streak++;
             else 
                 streak = 0;
-            if(streak == 3)
+            if(streak == 5)
                 return true;
             tempRow--;
             tempCol--;
@@ -111,11 +117,13 @@ public class Board {
     private boolean vertical(int r, int c, String s){
         int streak = 0;
         for (int i = 0; i < board[0].length; i++) {
+            System.out.println("Examine ["+i+"] ["+c+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[i][c]);
+
             if (s.charAt(0) == board[i][c]) 
                 streak++;
             else 
                 streak = 0;
-            if(streak == 3)
+            if(streak == 5)
                 return true;
         }
         return false; 
@@ -123,11 +131,13 @@ public class Board {
      private boolean horizontal(int r, int c, String s){
         int streak = 0;
         for (int i = 0; i < board.length; i++) {
+            System.out.println("Examine ["+r+"] ["+i+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[r][i]);
+
             if (s.charAt(0) == board[r][i]) 
                 streak++;
             else 
                 streak = 0;
-            if(streak == 3)
+            if(streak == 5)
                 return true;
         }
         return false; 
