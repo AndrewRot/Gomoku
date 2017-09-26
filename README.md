@@ -1,5 +1,5 @@
 Andrew Rottier, acrottier@wpi.edu
-Barret Wolfson, bwolfson@wpi.edu
+Barrett Wolfson, bwolfson@wpi.edu
 Kenneth Colpritt, uhh
 
 
