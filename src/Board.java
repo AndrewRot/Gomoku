@@ -55,10 +55,10 @@ public class Board {
             symbol = "X";
         else 
             symbol = "O";
-        System.out.println("Check win for move: "+"["+r+"] ["+c+"]");
+        //System.out.println("Check win for move: "+"["+r+"] ["+c+"]");
 
         if (vertical(r, c, symbol)|| horizontal(r, c, symbol) || forwardSlash(r, c, symbol)  || backwardSlash(r, c, symbol)) {
-            System.out.println("WININNNER");
+            //System.out.println("WININNNER");
             return true;
         }  
 
@@ -79,10 +79,10 @@ public class Board {
             tempCol--;
         }
 
-        System.out.println("FORWARD SLASH: Start looking from ["+tempRow+"] ["+tempCol+"]");
+        //System.out.println("FORWARD SLASH: Start looking from ["+tempRow+"] ["+tempCol+"]");
         //now we have our starting point on the edge of the board, check the diagnol starting here
         while(tempRow >= 0 && tempCol <= 14){ 
-            System.out.println("Examine ["+tempRow+"] ["+tempCol+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[tempRow][tempCol]);
+            //System.out.println("Examine ["+tempRow+"] ["+tempCol+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[tempRow][tempCol]);
             if (s.charAt(0) == board[tempRow][tempCol]) {
                 //System.out.println("streak++");
                 streak++;
@@ -108,11 +108,11 @@ public class Board {
             tempRow++;
             tempCol++;
         }
-        System.out.println("BACK SLASH: Start looking from ["+tempRow+"] ["+tempCol+"]");
+        //System.out.println("BACK SLASH: Start looking from ["+tempRow+"] ["+tempCol+"]");
 
         //now we have our starting point on the edge of the board, check the diagnol starting here
         while(tempCol >= 0 && tempRow >=0){ 
-            System.out.println("Examine ["+tempRow+"] ["+tempCol+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[tempRow][tempCol]);
+            //System.out.println("Examine ["+tempRow+"] ["+tempCol+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[tempRow][tempCol]);
 
             if (s.charAt(0) == board[tempRow][tempCol]) 
                 streak++;
@@ -128,7 +128,7 @@ public class Board {
     private boolean vertical(int r, int c, String s){
         int streak = 0;
         for (int i = 0; i < board[0].length; i++) {
-            System.out.println("Examine ["+i+"] ["+c+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[i][c]);
+            //System.out.println("Examine ["+i+"] ["+c+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[i][c]);
 
             if (s.charAt(0) == board[i][c]) 
                 streak++;
@@ -142,7 +142,7 @@ public class Board {
      private boolean horizontal(int r, int c, String s){
         int streak = 0;
         for (int i = 0; i < board.length; i++) {
-            System.out.println("Examine ["+r+"] ["+i+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[r][i]);
+            //System.out.println("Examine ["+r+"] ["+i+"]  " + "comparing: "+s.charAt(0)+ " and "+ board[r][i]);
 
             if (s.charAt(0) == board[r][i]) 
                 streak++;
@@ -175,16 +175,78 @@ public class Board {
     }
 
     public int evalStatus(char p, int dToWin){
-        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin);
+        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin) + evalStatusBackDiagnols(p, dToWin);
     }
 
 
+
+    //Return the total count of given streaks on the board for this direction ->(\)
+    private int evalStatusBackDiagnols(char p, int dToWin){
+        int count = 0;
+        int length = 5 - dToWin; //5 - distance to win
+
+        //Construct patterns to look for on the board (add to this later)
+        String match1 = strMatch(p, length); //XXXX_
+        String match2 = '_' + match1;        //_XXXX
+        match1 += '_';
+
+        int index = 0; //count up to 7 then down
+        boolean reachedMidWay = false;
+
+        //iterate through the rows checking for matches created above
+        for (int i = 0; i < 15; i++) {
+            String row = "";//new String(board[i]);
+
+            //need to construct a string from the diagnol direction
+            //starting points
+            int r = i;
+            int c = 0;
+
+            for(int j = 0; j <= index; j++){
+                row += board[r][j];
+            }
+
+
+
+            if (row.contains(match1)) {
+                int x = row.indexOf(match1);
+                while (x >= 0) {
+                    count++;
+                    x = row.indexOf(match1, match1.length() + x);
+                }
+            }
+            if (row.contains(match2)) {
+                int x = row.indexOf(match2);
+                while (x >= 0) {
+                    count++;
+                    x = row.indexOf(match2, match2.length() + x);
+                }
+            }
+
+            if(index == 7)
+                reachedMidWay = true;
+
+            //increase the spaces we are looking at until we reached the midway
+            if(!reachedMidWay)
+                index++; //increases this for next 
+            else 
+                index--; //count back to 0
+        }
+        return count;
+    }
+
+
+    //Return the total count of given streaks on the board
     private int evalStatusRows(char p, int dToWin){
         int count = 0;
-        int length = 5 - dToWin;
-        String match1 = strMatch(p, length);
-        String match2 = '_' + match1;
+        int length = 5 - dToWin; //5 - distance to win
+
+        //Construct patterns to look for on the board (add to this later)
+        String match1 = strMatch(p, length); //XXXX_
+        String match2 = '_' + match1;        //_XXXX
         match1 += '_';
+
+        //iterate through the rows checking for matches created above
         for (int i = 0; i < 15; i++) {
             String row = new String(board[i]);
             if (row.contains(match1)) {
@@ -209,8 +271,8 @@ public class Board {
         int count = 0;
         int length = 5 - dToWin;
         String match1 = strMatch(p, length);
-        String match2 = '.' + match1;
-        match1 += '.';
+        String match2 = '_' + match1;
+        match1 += '_';
         for (int j = 0; j < 15; j++) {
             String column = "";
             for (int i = 0; i < 15; i++) {

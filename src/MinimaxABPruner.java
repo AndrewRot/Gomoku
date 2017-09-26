@@ -14,6 +14,7 @@ public class MinimaxABPruner {
         int twoAway = brd.evalStatus(brd.prevPlayer, 2);
         int threeAway = brd.evalStatus(brd.prevPlayer, 3);
         double score = oneAway * 100.0 + twoAway * 5.0 + threeAway * 1.0;
+        //System.out.println("Score: "+score);
         return score;
     }
 
