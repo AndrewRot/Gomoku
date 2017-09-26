@@ -201,6 +201,64 @@ public class Board {
                     x = row.indexOf(match2, match2.length() + x);
                 }
             }
+            //additional matching patterns e.g. "XX_XX, X_XXX, X__XX, etc."
+            if(length == 4){
+                // also check "XX_XX, X_XXX, XXX_X'
+                String match3 = "XX_XX";
+                String match4 = "X_XXX";
+                String match5 = "XXX_X";
+                if (row.contains(match3)) {
+                    int x = row.indexOf(match3);
+                    while (x >= 0) {
+                        count++;
+                        x = row.indexOf(match3, match3.length() + x);
+                    }
+                }
+                if (row.contains(match4)) {
+                    int x = row.indexOf(match4);
+                    while (x >= 0) {
+                        count++;
+                        x = row.indexOf(match4, match4.length() + x);
+                    }
+                }
+                if (row.contains(match5)) {
+                    int x = row.indexOf(match5);
+                    while (x >= 0) {
+                        count++;
+                        x = row.indexOf(match5, match5.length() + x);
+                    }
+                }
+            }
+            if(length == 3){
+                // also check "XX__X, X__XX"
+                String match3 = "XX__X";
+                String match4 = "X__XX";
+                if(row.contains(match3)){
+                    int x = row.indexOf(match3);
+                    while (x >= 0) {
+                        count++;
+                        x = row.indexOf(match3, match3.length() + x);
+                    }
+                }
+                if(row.contains(match4)){
+                    int x = row.indexOf(match4);
+                    while (x >= 0) {
+                        count++;
+                        x = row.indexOf(match4, match4.length() + x);
+                    }
+                }
+            }
+            if(length == 2){
+                // also check "X___X"
+                String match3 = "X___X";
+                if(row.contains(match3)){
+                    int x = row.indexOf(match3);
+                    while (x >= 0) {
+                        count++;
+                        x = row.indexOf(match3, match3.length() + x);
+                    }
+                }
+            }
         }
         return count;
     }
@@ -209,8 +267,8 @@ public class Board {
         int count = 0;
         int length = 5 - dToWin;
         String match1 = strMatch(p, length);
-        String match2 = '.' + match1;
-        match1 += '.';
+        String match2 = '_' + match1;
+        match1 += '_';
         for (int j = 0; j < 15; j++) {
             String column = "";
             for (int i = 0; i < 15; i++) {
@@ -292,7 +350,7 @@ public class Board {
             }
             if (j + 1 < 15) {
                 if (board[i + 1][j + 1] == '_') {
-                    x = new Move(i + 1, j - 1);
+                    x = new Move(i + 1, j + 1);
                     adjacent.add(x);
                 }
             }

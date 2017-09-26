@@ -127,7 +127,7 @@ public class Gomoku {
             getUserMove();
         }
         else {
-            Object[] x = minimax.getBestMove(brd, 3, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            Object[] x = minimax.getBestMove(brd, 4, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             Move m = (Move) x[1];
             brd.executeMove(p, m);
             //gameBoard.print();
