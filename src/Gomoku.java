@@ -65,8 +65,12 @@ public class Gomoku {
 
                 printBoard();
 
+                char nextPlayer = yourTurn ? 'O' : 'X';
+                char p = yourTurn ? 'X' : 'O';
+                Board brd = new Board(gameBoard, nextPlayer, p);
+
                 //check for win
-                if(checkWin(row, col))
+                if(brd.checkWin(row, col))
                     endOfGame(yourTurn);
                 else{ //keep playing, 
                     yourTurn = false;
@@ -133,7 +137,7 @@ public class Gomoku {
             //gameBoard.print();
             this.gameBoard = brd.board;
             printBoard();
-            if(checkWin(m.row, m.col)){
+            if(brd.checkWin(m.row, m.col)){
                 endOfGame(yourTurn);
             }
             else{
@@ -144,62 +148,6 @@ public class Gomoku {
     }
 
 
-    //Check to see if the previous move won the game for either player
-    //check the four directions
-    private boolean checkWin(int r, int c){
-
-        String symbol = " ";
-        //check win for what letter?
-        if(yourTurn)
-            symbol = "X";
-        else 
-            symbol = "O";
-
-        if (vertical(r, c, symbol) || horizontal(r, c, symbol) ){//|| forwardSlash(i, j, symbol) ){//|| rDiagonal(i, j, symbol)) {
-            return true;
-        }  
-
-        return false;
-    }
-
-    //**** need to implement diagnols. find simple way to check
-    // check for the / direction
-    /*private boolean forwardSlash(int row, int col, String s){
-        int streak = 0;
-        for (int r = 0, int c = 0; r < row && c < col; r++, c++) {
-            if (s.charAt(0) == gameBoard[r][c]) 
-                streak++;
-            else 
-                streak = 0;
-            if(streak == 5)
-                return true;
-        }
-        return false; 
-    }*/
-    private boolean vertical(int r, int c, String s){
-        int streak = 0;
-        for (int i = 0; i < gameBoard[0].length; i++) {
-            if (s.charAt(0) == gameBoard[i][c]) 
-                streak++;
-            else 
-                streak = 0;
-            if(streak == 5)
-                return true;
-        }
-        return false; 
-    }
-     private boolean horizontal(int r, int c, String s){
-        int streak = 0;
-        for (int i = 0; i < gameBoard.length; i++) {
-            if (s.charAt(0) == gameBoard[r][i]) 
-                streak++;
-            else 
-                streak = 0;
-            if(streak == 5)
-                return true;
-        }
-        return false; 
-    }
 
 
     //convert character to an index
