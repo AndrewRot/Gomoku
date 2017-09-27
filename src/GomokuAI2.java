@@ -19,7 +19,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class GomokuAI {
+public class GomokuAI2 {
 
     Board gameBoard;
     //char[][] gameBoard.board = new char[15][15]; //2d array to keep track of the game board
@@ -35,7 +35,7 @@ public class GomokuAI {
     HashMap<String, Integer> letterTable; //get int from letter [fast]
     HashMap<Integer, String> integerTable; //get letter from int [fast]
 
-    String teamName = "groupZ"; //change once here
+    String teamName = "groupX"; //change once here
 
     Timer timer;
 
@@ -49,7 +49,7 @@ public class GomokuAI {
     Move prevMove = new Move(7, 7); //only really used on first turn if they take our move
     int moves = 0;
 
-    public GomokuAI(){
+    public GomokuAI2(){
         gameBoard = new Board();
         initializeBoard(); //fill it as we go
         this.teamFile = new File(teamName+".go");
@@ -289,7 +289,7 @@ public class GomokuAI {
 
 
     public static void main(String[] args){
-        GomokuAI g = new GomokuAI();;
+        GomokuAI2 g = new GomokuAI2();;
         g.checkingForGo();
     }
 

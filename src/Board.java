@@ -42,6 +42,17 @@ public class Board {
         }
     }
 
+    public int countMoves(){
+        int moves = 0;
+        for(int i = 0; i < board[0].length; i++){
+            for(int j = 0; j < board.length; j++){
+                if(board[i][j] != '_')
+                    moves++;
+            }
+        }
+        return moves;
+    }
+
 
 
 
