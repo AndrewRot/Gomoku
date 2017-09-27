@@ -9,6 +9,8 @@ import java.util.Set;
  */
 public class MinimaxABPruner {
 
+    boolean testing = false;
+
     double evaluate(Board brd){
         int oneAway = brd.evalStatus(brd.prevPlayer, 1);
         int twoAway = brd.evalStatus(brd.prevPlayer, 2);
@@ -40,7 +42,14 @@ public class MinimaxABPruner {
 
         //eval leaf node
         if(depth == 0){
-            Object[] o = { evaluate(brd), moveList.get(0)};
+            Move curr = moveList.get(0);
+            Move test = new Move(2,6);
+            Move test2 = new Move(9,6);
+            if(curr.equals(test) || curr.equals(test2)){
+                test = new Move(-1,-1);
+                testing = true;
+            }
+            Object[] o = { evaluate(brd), curr};
             return o;
         }
         bestScore = alpha;
