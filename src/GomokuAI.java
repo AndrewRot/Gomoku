@@ -91,7 +91,7 @@ public class GomokuAI {
 
         //file has been found! Begin timer 
         timer = new Timer();
-        timer.schedule(new timerRunOut(), 10 * 1000); //give us 1 to write a move to the file (reduce this later)
+        timer.schedule(new timerRunOut(), 9 * 1000); //give us 1 to write a move to the file (reduce this later)
 
         //boolean x = true;
         //while(x){x = true;} ----Used for testing the timer
@@ -110,13 +110,35 @@ public class GomokuAI {
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         
         String line = null;
+        
         while ((line = br.readLine()) != null) {    
+
+
+            moves = gameBoard.countMoves();
+
+            //if moves = 0 -> we go first .. we are O
+            if(moves == 0 && firstTurn){
+                ourSymbol = 'O';
+                theirSymbol = 'X';
+            }
+            //if moves = 1 -> they went first .. we are X
+            else if(moves == 1 && firstTurn){
+                ourSymbol = 'X';
+                theirSymbol = 'O';
+            }
+
+            //they took our move - update the board accordingly
+            else if(moves == 1){
+                gameBoard.board[prevMove.row] [prevMove.col] = theirSymbol;
+            }
+
+
             System.out.println("readMove:" +line);
             String[] move = line.split(" ");        //collect individual bits of info
             String groupName = move[0];             //argument 0 is the group name
             
             //check to see if valid move was written to the file
-            if(validLetters.contains(move[1]) && (Integer.parseInt(move[2])-1) != -1){
+            if(!validLetters.contains(move[1]) && (Integer.parseInt(move[2])-1) != -1){
 
                 int col = letterTable.get(move[1]);     //convert letter to int
                 int row = Integer.parseInt(move[2])-1;  //covert string to int
@@ -131,12 +153,22 @@ public class GomokuAI {
             }
             //otherwise we ignore the move
         }
+
+
+
         br.close(); //Move this with above stuff (if we ever move it)
         gameBoard.printBoard();  //for testing
 
 
+        if(moves == 0 && firstTurn){
+            ourSymbol = 'O';
+            theirSymbol = 'X';
+        }
+        moves++;
+        
+
         //calculate how many moves
-        moves = gameBoard.countMoves();
+        /*moves = gameBoard.countMoves();
 
         //if moves = 0 -> we go first .. we are O
             if(moves == 0 && firstTurn){
@@ -153,7 +185,7 @@ public class GomokuAI {
             else if(moves == 1){
                 gameBoard.board[prevMove.row] [prevMove.col] = theirSymbol;
             }
-
+*/
         
 
         calculateMove(); 
@@ -236,7 +268,7 @@ public class GomokuAI {
         else {
             Object[] x = minimax.getBestMove(brd, 3, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             Move m = (Move) x[1];
-            brd.executeMove(p, m);
+            brd.executeMove(ourSymbol, m);
             //gameBoard.print();
             this.gameBoard = brd;//.board;
             gameBoard.printBoard();
@@ -342,6 +374,22 @@ public class GomokuAI {
         letterTable.put("M", 12);
         letterTable.put("N", 13);
         letterTable.put("O", 14);
+
+        letterTable.put("a", 0);
+        letterTable.put("b", 1);
+        letterTable.put("c", 2);
+        letterTable.put("d", 3);
+        letterTable.put("e", 4);
+        letterTable.put("f", 5);
+        letterTable.put("g", 6);
+        letterTable.put("h", 7);
+        letterTable.put("i", 8);
+        letterTable.put("j", 9);
+        letterTable.put("k", 10);
+        letterTable.put("l", 11);
+        letterTable.put("m", 12);
+        letterTable.put("n", 13);
+        letterTable.put("o", 14);
     }
     private void populateIntegerHashMap(){
         integerTable.put(0,"A");

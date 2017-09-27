@@ -1,3 +1,10 @@
-groupX h 8
 groupZ h 8
-groupX a 3
+groupX i 8
+groupZ a 3
+groupX h 7
+groupZ b 2
+groupX g 6
+groupZ a 1
+groupX f 5
+groupZ c 3
+groupX e 4
