@@ -205,17 +205,27 @@ public class Board {
         boolean reachedMidWay = false;
 
         //iterate through the rows checking for matches created above
-        for (int i = 14; i >= 0; i++) {
+        for (int i = 29; i > 0; i--) {
             String row = "";
 
             //need to construct a string from the diagnol direction
             //starting points
-            int r = i;
-            int c = 0;
+            if(!reachedMidWay){
+                int r = i - 15;
+                int c = 0;
 
-            for(int j = 0; j <= index; j++){
-                row += board[r][j];
-                r++;
+                for(int j = 0; j <= index; j++){
+                    row += board[r][j];
+                    r++;
+                }
+            }
+            if(reachedMidWay){
+                int r = 0;
+                for(int j = index; j <= 14; j++){
+                    row+= board[r][j];
+                    r++;
+
+                }
             }
 
 
@@ -235,7 +245,7 @@ public class Board {
                 }
             }
 
-            if(index == 7)
+            if(index == 14)
                 reachedMidWay = true;
 
             //increase the spaces we are looking at until we reached the midway
@@ -261,17 +271,29 @@ public class Board {
         boolean reachedMidWay = false;
 
         //iterate through the rows checking for matches created above
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 29; i++) {
             String row = "";
 
             //need to construct a string from the diagnol direction
             //starting points
-            int r = i;
-            int c = 0;
 
-            for(int j = 0; j <= index; j++){
-                row += board[r][j];
-                r--;
+            if(!reachedMidWay){
+                int r = i;
+                int c = 0;
+
+                for(int j = 0; j < index; j++){
+                    row += board[r][j];
+                    r--;
+                }
+            }
+            if(reachedMidWay){
+                int r = 14;
+                //int c = 0;
+
+                for(int j = index; j <= 14; j++){
+                    row += board[r][j];
+                    r--;
+                }
             }
 
 
@@ -291,11 +313,11 @@ public class Board {
                 }
             }
 
-            if(index == 7)
+            if(index == 14)
                 reachedMidWay = true;
 
             //increase the spaces we are looking at until we reached the midway
-            if(!reachedMidWay)
+            else if(!reachedMidWay)
                 index++; //increases this for next 
             else 
                 index--; //count back to 0

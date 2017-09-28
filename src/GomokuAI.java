@@ -138,7 +138,7 @@ public class GomokuAI {
             String groupName = move[0];             //argument 0 is the group name
             
             //check to see if valid move was written to the file
-            if(!validLetters.contains(move[1]) && (Integer.parseInt(move[2])-1) != -1){
+            //if(!validLetters.contains(move[1]) && (Integer.parseInt(move[2])-1) != -1){
 
                 int col = letterTable.get(move[1]);     //convert letter to int
                 int row = Integer.parseInt(move[2])-1;  //covert string to int
@@ -150,7 +150,7 @@ public class GomokuAI {
                     gameBoard.board[row] [col] = ourSymbol; //our mark
 
                 gameBoard.checkWin(row, col);
-            }
+            //}
             //otherwise we ignore the move
         }
 
@@ -230,7 +230,7 @@ public class GomokuAI {
         char p = yourTurn ? 'X' : 'O';
 
 
-        Board brd = new Board(gameBoard.board, nextPlayer, p);
+        Board brd = new Board(gameBoard.board, ourSymbol, theirSymbol);
         if(firstTurn){
             Move m = new Move(1,1);
             if(brd.board[7][7] == theirSymbol){
