@@ -230,7 +230,7 @@ public class GomokuAI {
         char p = yourTurn ? 'X' : 'O';
 
 
-        Board brd = new Board(gameBoard.board, ourSymbol, theirSymbol);
+        Board brd = new Board(gameBoard.board, theirSymbol, ourSymbol);
         if(firstTurn){
             Move m = new Move(1,1);
             if(brd.board[7][7] == theirSymbol){

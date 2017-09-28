@@ -231,6 +231,7 @@ public class Board {
 
 
             if (row.contains(match1)) {
+                //System.out.println("1 FOUND A 4 IN A ROW MATCH");
                 int x = row.indexOf(match1);
                 while (x >= 0) {
                     count++;
@@ -238,6 +239,7 @@ public class Board {
                 }
             }
             if (row.contains(match2)) {
+                //System.out.println("2 FOUND A 4 IN A ROW MATCH");
                 int x = row.indexOf(match2);
                 while (x >= 0) {
                     count++;
@@ -299,6 +301,7 @@ public class Board {
 
 
             if (row.contains(match1)) {
+                //System.out.println("3 FOUND A 4 IN A ROW MATCH");
                 int x = row.indexOf(match1);
                 while (x >= 0) {
                     count++;
@@ -306,6 +309,7 @@ public class Board {
                 }
             }
             if (row.contains(match2)) {
+                 //System.out.println("4 FOUND A 4 IN A ROW MATCH");
                 int x = row.indexOf(match2);
                 while (x >= 0) {
                     count++;
