@@ -186,7 +186,7 @@ public class Board {
     }
 
     public int evalStatus(char p, int dToWin){
-        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin) + evalStatusBackDiagnols(p, dToWin);
+        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin) + evalStatusForwardDiagnols(p, dToWin) + evalStatusBackDiagnols(p, dToWin);
     }
 
 
@@ -205,8 +205,8 @@ public class Board {
         boolean reachedMidWay = false;
 
         //iterate through the rows checking for matches created above
-        for (int i = 0; i < 15; i++) {
-            String row = "";//new String(board[i]);
+        for (int i = 14; i >= 0; i++) {
+            String row = "";
 
             //need to construct a string from the diagnol direction
             //starting points
@@ -215,6 +215,63 @@ public class Board {
 
             for(int j = 0; j <= index; j++){
                 row += board[r][j];
+                r++;
+            }
+
+
+
+            if (row.contains(match1)) {
+                int x = row.indexOf(match1);
+                while (x >= 0) {
+                    count++;
+                    x = row.indexOf(match1, match1.length() + x);
+                }
+            }
+            if (row.contains(match2)) {
+                int x = row.indexOf(match2);
+                while (x >= 0) {
+                    count++;
+                    x = row.indexOf(match2, match2.length() + x);
+                }
+            }
+
+            if(index == 7)
+                reachedMidWay = true;
+
+            //increase the spaces we are looking at until we reached the midway
+            if(!reachedMidWay)
+                index++; //increases this for next 
+            else 
+                index--; //count back to 0
+        }
+        return count;
+    }
+
+    //Return the total count of given streaks on the board for this direction ->(/)
+    private int evalStatusForwardDiagnols(char p, int dToWin){
+        int count = 0;
+        int length = 5 - dToWin; //5 - distance to win
+
+        //Construct patterns to look for on the board (add to this later)
+        String match1 = strMatch(p, length); //XXXX_
+        String match2 = '_' + match1;        //_XXXX
+        match1 += '_';
+
+        int index = 0; //count up to 7 then down
+        boolean reachedMidWay = false;
+
+        //iterate through the rows checking for matches created above
+        for (int i = 0; i < 15; i++) {
+            String row = "";
+
+            //need to construct a string from the diagnol direction
+            //starting points
+            int r = i;
+            int c = 0;
+
+            for(int j = 0; j <= index; j++){
+                row += board[r][j];
+                r--;
             }
 
 
