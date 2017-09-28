@@ -186,13 +186,13 @@ public class Board {
     }
 
     public int evalStatus(char p, int dToWin){
-        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin) + evalStatusBackDiagnols(p, dToWin);
+        return evalStatusRows(p, dToWin) + evalStatusCols(p, dToWin) + evalStatusForwardDiagnols(p, dToWin);
     }
 
 
 
     //Return the total count of given streaks on the board for this direction ->(\)
-    private int evalStatusBackDiagnols(char p, int dToWin){
+    private int evalStatusForwardDiagnols(char p, int dToWin){
         int count = 0;
         int length = 5 - dToWin; //5 - distance to win
 
@@ -215,6 +215,7 @@ public class Board {
 
             for(int j = 0; j <= index; j++){
                 row += board[r][j];
+                r--;
             }
 
 
@@ -275,11 +276,22 @@ public class Board {
                 }
             }
             //additional matching patterns e.g. "XX_XX, X_XXX, X_XXX, etc."
+            boolean isX = (p == 'X') ? true : false;
             if(length == 4){
                 // also check "XX_XX, X_XXX, XXX_X'
-                String match3 = "XX_XX";
-                String match4 = "X_XXX";
-                String match5 = "XXX_X";
+                String match3;
+                String match4;
+                String match5;
+                if(isX){
+                    match3 = "XX_XX";
+                    match4 = "X_XXX";
+                    match5 = "XXX_X";
+                }
+                else{
+                    match3 = "OO_OO";
+                    match4 = "O_OOO";
+                    match5 = "OOO_O";
+                }
                 if (row.contains(match3)) {
                     int x = row.indexOf(match3);
                     while (x >= 0) {
@@ -304,8 +316,16 @@ public class Board {
             }
             if(length == 3){
                 // also check "XX__X, X__XX"
-                String match3 = "XX__X";
-                String match4 = "X__XX";
+                String match3;
+                String match4;
+                if(isX){
+                    match3 = "XX__X";
+                    match4 = "X__XX";
+                }
+                else{
+                    match3 = "OO__O";
+                    match4 = "O__OO";
+                }
                 if(row.contains(match3)){
                     int x = row.indexOf(match3);
                     while (x >= 0) {
@@ -323,7 +343,13 @@ public class Board {
             }
             if(length == 2){
                 // also check "X___X"
-                String match3 = "X___X";
+                String match3;
+                if(isX){
+                    match3 = "X___X";
+                }
+                else{
+                    match3 = "O___O";
+                }
                 if(row.contains(match3)){
                     int x = row.indexOf(match3);
                     while (x >= 0) {
@@ -359,6 +385,89 @@ public class Board {
                 while (x >= 0) {
                     count++;
                     x = column.indexOf(match2, match2.length() + x);
+                }
+            }
+            //additional matching patterns e.g. "XX_XX, X_XXX, X_XXX, etc."
+            boolean isX = (p == 'X') ? true : false;
+            if(length == 4){
+                // also check "XX_XX, X_XXX, XXX_X'
+                String match3;
+                String match4;
+                String match5;
+                if(isX){
+                    match3 = "XX_XX";
+                    match4 = "X_XXX";
+                    match5 = "XXX_X";
+                }
+                else{
+                    match3 = "OO_OO";
+                    match4 = "O_OOO";
+                    match5 = "OOO_O";
+                }
+                if (column.contains(match3)) {
+                    int x = column.indexOf(match3);
+                    while (x >= 0) {
+                        count++;
+                        x = column.indexOf(match3, match3.length() + x);
+                    }
+                }
+                if (column.contains(match4)) {
+                    int x = column.indexOf(match4);
+                    while (x >= 0) {
+                        count++;
+                        x = column.indexOf(match4, match4.length() + x);
+                    }
+                }
+                if (column.contains(match5)) {
+                    int x = column.indexOf(match5);
+                    while (x >= 0) {
+                        count++;
+                        x = column.indexOf(match5, match5.length() + x);
+                    }
+                }
+            }
+            if(length == 3){
+                // also check "XX__X, X__XX"
+                String match3;
+                String match4;
+                if(isX){
+                    match3 = "XX__X";
+                    match4 = "X__XX";
+                }
+                else{
+                    match3 = "OO__O";
+                    match4 = "O__OO";
+                }
+                if(column.contains(match3)){
+                    int x = column.indexOf(match3);
+                    while (x >= 0) {
+                        count++;
+                        x = column.indexOf(match3, match3.length() + x);
+                    }
+                }
+                if(column.contains(match4)){
+                    int x = column.indexOf(match4);
+                    while (x >= 0) {
+                        count++;
+                        x = column.indexOf(match4, match4.length() + x);
+                    }
+                }
+            }
+            if(length == 2){
+                // also check "X___X"
+                String match3;
+                if(isX){
+                    match3 = "X___X";
+                }
+                else{
+                    match3 = "O___O";
+                }
+                if(column.contains(match3)){
+                    int x = column.indexOf(match3);
+                    while (x >= 0) {
+                        count++;
+                        x = column.indexOf(match3, match3.length() + x);
+                    }
                 }
             }
         }
