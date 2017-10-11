@@ -11,6 +11,9 @@
  * calculateMove: determine best place to move and write the move to move_file
  * 
  * ... loop back to top
+*
+*  Run this against the Gomoku AI2, if it wins, we get 5 points
+ *
  */
 
 import java.io.File;

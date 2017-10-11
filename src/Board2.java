@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class Board {
+public class Board2 {
 
     //2d array to keep track of the game board
     char[][] board = new char[15][15];
@@ -18,12 +18,12 @@ public class Board {
     //boolean yourTurn; //initialize randomly later on. true if your turn
     
 
-    public Board(){
+    public Board2(){
         initializeBoard(); 
         //this.yourTurn = true;
     }
 
-    public Board(char[][] b, char nextPlayer, char prevPlayer){
+    public Board2(char[][] b, char nextPlayer, char prevPlayer){
         for(int i = 0; i < board[0].length; i++){
             for(int j = 0; j < board.length; j++){
                 board[i][j] = b[i][j];
@@ -201,15 +201,6 @@ public class Board {
         String match2 = '_' + match1;        //_XXXX
         match1 += '_';
 
-
-
-        String matchX = strMatch('X', length); //XXXX_
-        String matchY = '_' + matchX;        //_XXXX
-        matchX += '_';
-        String matchA = strMatch('O', length); //XXXX_
-        String matchB = '_' + matchA;        //_XXXX
-        matchA += '_';
-
         int index = 0; //count up to 7 then down
         boolean reachedMidWay = false;
 
@@ -237,37 +228,10 @@ public class Board {
                 }
             }
 
-            if (row.contains(matchX)) {
-                int x = row.indexOf(matchX);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchX, matchX.length() + x);
-                }
-            }
-            if (row.contains(matchY)) {
-                int x = row.indexOf(matchY);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchY, matchY.length() + x);
-                }
-            }
-            if (row.contains(matchA)) {
-                int x = row.indexOf(matchA);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchA, matchA.length() + x);
-                }
-            }
-            if (row.contains(matchB)) {
-                int x = row.indexOf(matchB);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchB, matchB.length() + x);
-                }
-            }
 
 
             if (row.contains(match1)) {
+                //System.out.println("1 FOUND A 4 IN A ROW MATCH");
                 int x = row.indexOf(match1);
                 while (x >= 0) {
                     count++;
@@ -275,129 +239,11 @@ public class Board {
                 }
             }
             if (row.contains(match2)) {
+                //System.out.println("2 FOUND A 4 IN A ROW MATCH");
                 int x = row.indexOf(match2);
                 while (x >= 0) {
                     count++;
                     x = row.indexOf(match2, match2.length() + x);
-                }
-            }
-            //additional matching patterns e.g. "XX_XX, X_XXX, X_XXX, etc."
-            boolean isX = (p == 'X') ? true : false;
-            if(length == 4){
-                // also check "XX_XX, X_XXX, XXX_X'
-                String match3;
-                String match4;
-                String match5;
-                    match3 = "XX_XX";
-                    match4 = "X_XXX";
-                    match5 = "XXX_X";
-                
-                  String  match6 = "OO_OO";
-                  String  match7 = "O_OOO";
-                  String  match8 = "OOO_O";
-                
-                if (row.contains(match3)) {
-                    int x = row.indexOf(match3);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if (row.contains(match4)) {
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match4.length() + x);
-                    }
-                }
-                if (row.contains(match5)) {
-                    int x = row.indexOf(match5);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match5, match5.length() + x);
-                    }
-                }
-                if (row.contains(match6)) {
-                    int x = row.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match6, match6.length() + x);
-                    }
-                }
-                if (row.contains(match7)) {
-                    int x = row.indexOf(match7);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match7, match7.length() + x);
-                    }
-                }
-                if (row.contains(match8)) {
-                    int x = row.indexOf(match8);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match8, match8.length() + x);
-                    }
-                }
-            }
-            if(length == 3){
-                // also check "XX__X, X__XX"
-                String match3;
-                String match4;
-                    match3 = "XX__X";
-                    match4 = "X__XX";
-            
-                  String  match5 = "OO__O";
-                  String  match6 = "O__OO";
-                
-                if(row.contains(match3)){
-                    int x = row.indexOf(match3);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if(row.contains(match4)){
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match4.length() + x);
-                    }
-                }
-                if(row.contains(match5)){
-                    int x = row.indexOf(match5);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match5, match5.length() + x);
-                    }
-                }
-                if(row.contains(match6)){
-                    int x = row.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match6, match6.length() + x);
-                    }
-                }
-            }
-            if(length == 2){
-                // also check "X___X"
-                String match3;
-                    match3 = "X___X";
-                
-                 String   match4 = "O___O";
-                
-                if(row.contains(match3)){
-                    int x = row.indexOf(match3);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if(row.contains(match4)){
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match3.length() + x);
-                    }
                 }
             }
 
@@ -422,13 +268,6 @@ public class Board {
         String match1 = strMatch(p, length); //XXXX_
         String match2 = '_' + match1;        //_XXXX
         match1 += '_';
-
-        String matchX = strMatch('X', length); //XXXX_
-        String matchY = '_' + matchX;        //_XXXX
-        matchX += '_';
-        String matchA = strMatch('O', length); //XXXX_
-        String matchB = '_' + matchA;        //_XXXX
-        matchA += '_';
 
         int index = 0; //count up to 7 then down
         boolean reachedMidWay = false;
@@ -477,153 +316,6 @@ public class Board {
                     x = row.indexOf(match2, match2.length() + x);
                 }
             }
-            if (row.contains(matchX)) {
-                int x = row.indexOf(matchX);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchX, matchX.length() + x);
-                }
-            }
-            if (row.contains(matchY)) {
-                int x = row.indexOf(matchY);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchY, matchY.length() + x);
-                }
-            }
-            if (row.contains(matchA)) {
-                int x = row.indexOf(matchA);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchA, matchA.length() + x);
-                }
-            }
-            if (row.contains(matchB)) {
-                int x = row.indexOf(matchB);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchB, matchB.length() + x);
-                }
-            }
-            //additional matching patterns e.g. "XX_XX, X_XXX, X_XXX, etc."
-            boolean isX = (p == 'X') ? true : false;
-            if(length == 4){
-                // also check "XX_XX, X_XXX, XXX_X'
-                String match3;
-                String match4;
-                String match5;
-                    match3 = "XX_XX";
-                    match4 = "X_XXX";
-                    match5 = "XXX_X";
-                
-                 String   match6 = "OO_OO";
-                 String   match7 = "O_OOO";
-                String    match8 = "OOO_O";
-                
-                if (row.contains(match3)) {
-                    int x = row.indexOf(match3);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if (row.contains(match4)) {
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match4.length() + x);
-                    }
-                }
-                if (row.contains(match5)) {
-                    int x = row.indexOf(match5);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match5, match5.length() + x);
-                    }
-                }
-                if (row.contains(match6)) {
-                    int x = row.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match6, match6.length() + x);
-                    }
-                }
-                if (row.contains(match7)) {
-                    int x = row.indexOf(match7);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match7, match7.length() + x);
-                    }
-                }
-                if (row.contains(match8)) {
-                    int x = row.indexOf(match8);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match8, match8.length() + x);
-                    }
-                }
-            }
-            if(length == 3){
-                // also check "XX__X, X__XX"
-                String match3;
-                String match4;
-                    match3 = "XX__X";
-                    match4 = "X__XX";
-            
-                 String   match5 = "OO__O";
-                 String   match6 = "O__OO";
-                
-                if(row.contains(match3)){
-                    int x = row.indexOf(match3);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if(row.contains(match4)){
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match4.length() + x);
-                    }
-                }
-                if(row.contains(match5)){
-                    int x = row.indexOf(match5);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match5, match5.length() + x);
-                    }
-                }
-                if(row.contains(match6)){
-                    int x = row.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match6, match6.length() + x);
-                    }
-                }
-            }
-            if(length == 2){
-                // also check "X___X"
-                String match3;
-                    match3 = "X___X";
-                
-                  String  match4 = "O___O";
-                
-                if(row.contains(match3)){
-                    int x = row.indexOf(match3);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if(row.contains(match4)){
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match3.length() + x);
-                    }
-                }
-            }
 
             if(index == 14)
                 reachedMidWay = true;
@@ -648,15 +340,6 @@ public class Board {
         String match2 = '_' + match1;        //_XXXX
         match1 += '_';
 
-
-
-        String matchX = strMatch('X', length); //XXXX_
-        String matchY = '_' + matchX;        //_XXXX
-        matchX += '_';
-        String matchA = strMatch('O', length); //XXXX_
-        String matchB = '_' + matchA;        //_XXXX
-        matchA += '_';
-
         //iterate through the rows checking for matches created above
         for (int i = 0; i < 15; i++) {
             String row = new String(board[i]);
@@ -674,34 +357,6 @@ public class Board {
                     x = row.indexOf(match2, match2.length() + x);
                 }
             }
-            if (row.contains(matchX)) {
-                int x = row.indexOf(matchX);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchX, matchX.length() + x);
-                }
-            }
-            if (row.contains(matchY)) {
-                int x = row.indexOf(matchY);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchY, matchY.length() + x);
-                }
-            }
-            if (row.contains(matchA)) {
-                int x = row.indexOf(matchA);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchA, matchA.length() + x);
-                }
-            }
-            if (row.contains(matchB)) {
-                int x = row.indexOf(matchB);
-                while (x >= 0) {
-                    count++;
-                    x = row.indexOf(matchB, matchB.length() + x);
-                }
-            }
             //additional matching patterns e.g. "XX_XX, X_XXX, X_XXX, etc."
             boolean isX = (p == 'X') ? true : false;
             if(length == 4){
@@ -709,14 +364,16 @@ public class Board {
                 String match3;
                 String match4;
                 String match5;
+                if(isX){
                     match3 = "XX_XX";
                     match4 = "X_XXX";
                     match5 = "XXX_X";
-                
-                  String  match6 = "OO_OO";
-                  String  match7 = "O_OOO";
-                  String  match8 = "OOO_O";
-                
+                }
+                else{
+                    match3 = "OO_OO";
+                    match4 = "O_OOO";
+                    match5 = "OOO_O";
+                }
                 if (row.contains(match3)) {
                     int x = row.indexOf(match3);
                     while (x >= 0) {
@@ -738,38 +395,19 @@ public class Board {
                         x = row.indexOf(match5, match5.length() + x);
                     }
                 }
-                if (row.contains(match6)) {
-                    int x = row.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match6, match6.length() + x);
-                    }
-                }
-                if (row.contains(match7)) {
-                    int x = row.indexOf(match7);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match7, match7.length() + x);
-                    }
-                }
-                if (row.contains(match8)) {
-                    int x = row.indexOf(match8);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match8, match8.length() + x);
-                    }
-                }
             }
             if(length == 3){
                 // also check "XX__X, X__XX"
                 String match3;
                 String match4;
+                if(isX){
                     match3 = "XX__X";
                     match4 = "X__XX";
-            
-                 String   match5 = "OO__O";
-                 String   match6 = "O__OO";
-                
+                }
+                else{
+                    match3 = "OO__O";
+                    match4 = "O__OO";
+                }
                 if(row.contains(match3)){
                     int x = row.indexOf(match3);
                     while (x >= 0) {
@@ -784,40 +422,21 @@ public class Board {
                         x = row.indexOf(match4, match4.length() + x);
                     }
                 }
-                if(row.contains(match5)){
-                    int x = row.indexOf(match5);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match5, match5.length() + x);
-                    }
-                }
-                if(row.contains(match6)){
-                    int x = row.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match6, match6.length() + x);
-                    }
-                }
             }
             if(length == 2){
                 // also check "X___X"
                 String match3;
+                if(isX){
                     match3 = "X___X";
-                
-                  String  match4 = "O___O";
-                
+                }
+                else{
+                    match3 = "O___O";
+                }
                 if(row.contains(match3)){
                     int x = row.indexOf(match3);
                     while (x >= 0) {
                         count++;
                         x = row.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if(row.contains(match4)){
-                    int x = row.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = row.indexOf(match4, match3.length() + x);
                     }
                 }
             }
@@ -831,16 +450,6 @@ public class Board {
         String match1 = strMatch(p, length);
         String match2 = '_' + match1;
         match1 += '_';
-
-
-
-        String matchX = strMatch('X', length); //XXXX_
-        String matchY = '_' + matchX;        //_XXXX
-        matchX += '_';
-        String matchA = strMatch('O', length); //XXXX_
-        String matchB = '_' + matchA;        //_XXXX
-        matchA += '_';
-
         for (int j = 0; j < 15; j++) {
             String column = "";
             for (int i = 0; i < 15; i++) {
@@ -860,34 +469,6 @@ public class Board {
                     x = column.indexOf(match2, match2.length() + x);
                 }
             }
-            if (column.contains(matchX)) {
-                int x = column.indexOf(matchX);
-                while (x >= 0) {
-                    count++;
-                    x = column.indexOf(matchX, matchX.length() + x);
-                }
-            }
-            if (column.contains(matchY)) {
-                int x = column.indexOf(matchY);
-                while (x >= 0) {
-                    count++;
-                    x = column.indexOf(matchY, matchY.length() + x);
-                }
-            }
-            if (column.contains(matchA)) {
-                int x = column.indexOf(matchA);
-                while (x >= 0) {
-                    count++;
-                    x = column.indexOf(matchA, matchA.length() + x);
-                }
-            }
-            if (column.contains(matchB)) {
-                int x = column.indexOf(matchB);
-                while (x >= 0) {
-                    count++;
-                    x = column.indexOf(matchB, matchB.length() + x);
-                }
-            }
             //additional matching patterns e.g. "XX_XX, X_XXX, X_XXX, etc."
             boolean isX = (p == 'X') ? true : false;
             if(length == 4){
@@ -895,14 +476,16 @@ public class Board {
                 String match3;
                 String match4;
                 String match5;
+                if(isX){
                     match3 = "XX_XX";
                     match4 = "X_XXX";
                     match5 = "XXX_X";
-                
-                 String   match6 = "OO_OO";
-                 String   match7 = "O_OOO";
-                  String  match8 = "OOO_O";
-                
+                }
+                else{
+                    match3 = "OO_OO";
+                    match4 = "O_OOO";
+                    match5 = "OOO_O";
+                }
                 if (column.contains(match3)) {
                     int x = column.indexOf(match3);
                     while (x >= 0) {
@@ -924,38 +507,19 @@ public class Board {
                         x = column.indexOf(match5, match5.length() + x);
                     }
                 }
-                if (column.contains(match6)) {
-                    int x = column.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = column.indexOf(match6, match6.length() + x);
-                    }
-                }
-                if (column.contains(match7)) {
-                    int x = column.indexOf(match7);
-                    while (x >= 0) {
-                        count++;
-                        x = column.indexOf(match7, match7.length() + x);
-                    }
-                }
-                if (column.contains(match8)) {
-                    int x = column.indexOf(match8);
-                    while (x >= 0) {
-                        count++;
-                        x = column.indexOf(match8, match8.length() + x);
-                    }
-                }
             }
             if(length == 3){
                 // also check "XX__X, X__XX"
                 String match3;
                 String match4;
+                if(isX){
                     match3 = "XX__X";
                     match4 = "X__XX";
-            
-                 String   match5 = "OO__O";
-                  String  match6 = "O__OO";
-                
+                }
+                else{
+                    match3 = "OO__O";
+                    match4 = "O__OO";
+                }
                 if(column.contains(match3)){
                     int x = column.indexOf(match3);
                     while (x >= 0) {
@@ -970,40 +534,21 @@ public class Board {
                         x = column.indexOf(match4, match4.length() + x);
                     }
                 }
-                if(column.contains(match5)){
-                    int x = column.indexOf(match5);
-                    while (x >= 0) {
-                        count++;
-                        x = column.indexOf(match5, match5.length() + x);
-                    }
-                }
-                if(column.contains(match6)){
-                    int x = column.indexOf(match6);
-                    while (x >= 0) {
-                        count++;
-                        x = column.indexOf(match6, match6.length() + x);
-                    }
-                }
             }
             if(length == 2){
                 // also check "X___X"
                 String match3;
+                if(isX){
                     match3 = "X___X";
-                
-                   String match4 = "O___O";
-                
+                }
+                else{
+                    match3 = "O___O";
+                }
                 if(column.contains(match3)){
                     int x = column.indexOf(match3);
                     while (x >= 0) {
                         count++;
                         x = column.indexOf(match3, match3.length() + x);
-                    }
-                }
-                if(column.contains(match4)){
-                    int x = column.indexOf(match4);
-                    while (x >= 0) {
-                        count++;
-                        x = column.indexOf(match4, match3.length() + x);
                     }
                 }
             }

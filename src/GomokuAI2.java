@@ -21,7 +21,7 @@ import java.util.*;
 
 public class GomokuAI2 {
 
-    Board gameBoard;
+    Board2 gameBoard;
     //char[][] gameBoard.board = new char[15][15]; //2d array to keep track of the game board
 
     File teamFile;
@@ -39,7 +39,7 @@ public class GomokuAI2 {
 
     Timer timer;
 
-    MinimaxABPruner minimax = new MinimaxABPruner();
+    MinimaxABPruner2 minimax = new MinimaxABPruner2();
 
     String validLetters = "ABCDEFGHIJKLMNO";
 
@@ -50,7 +50,7 @@ public class GomokuAI2 {
     int moves = 0;
 
     public GomokuAI2(){
-        gameBoard = new Board();
+        gameBoard = new Board2();
         initializeBoard(); //fill it as we go
         this.teamFile = new File(teamName+".go");
         this.moveFile = new File("move_file"); //maybe add .txt
@@ -230,7 +230,7 @@ public class GomokuAI2 {
         char p = yourTurn ? 'X' : 'O';
 
 
-        Board brd = new Board(gameBoard.board, theirSymbol, ourSymbol);
+        Board2 brd = new Board2(gameBoard.board, theirSymbol, ourSymbol);
         if(firstTurn){
             Move m = new Move(1,1);
             if(brd.board[7][7] == theirSymbol){
