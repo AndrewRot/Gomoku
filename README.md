@@ -1,9 +1,9 @@
 Andrew Rottier, acrottier@wpi.edu
 Barrett Wolfson, bwolfson@wpi.edu
-Kenneth Colpritt, uhh
+Kenneth Colpritt, kcolpritt@wpi.edu
 
 
-EXTRA CREDIT: Upgrade the AI to beat our original AI
+~EXTRA CREDIT: Upgrade the AI to beat our original AI~
 
 Our initial AI had some weaknesses to it. It was only capable at looking for defensive moves and had no understanding of offense. It also was not capable of calculating streaks for diaganol directions. To upgrade out AI, we incorperated streak checking to the diaganol directions. Additionally, we added offensive moves to our AI's gameplay. Instead of just checking the board for opponent streaks, we determined that it was equally important to check a board state for the AI's streaks as well. For example, we weighted the following two scenarios equally:
 
